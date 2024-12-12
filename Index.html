@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GraphQL Playground & API Docs</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/graphql-playground-react/build/static/css/index.css" />
+  <script src="https://cdn.jsdelivr.net/npm/graphql-playground-react/build/static/js/middleware.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      background-color: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav {
+      background-color: #1a237e; /* Azul marino */
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #444;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav button, nav a {
+      background-color: #3949ab; /* Azul más claro */
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    nav button:hover, nav a:hover {
+      background-color: #5c6bc0; /* Hover azul claro */
+    }
+
+    #playground-container, .docs {
+      display: none;
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto; /* Agrega la barra de desplazamiento vertical */
+    }
+
+    #playground-container.active, .docs.active {
+      display: block;
+    }
+
+    .docs {
+      background-color: #2d2d2d;
+      padding: 20px;
+      border-top: 1px solid #444;
+    }
+
+    .docs h2, .docs h3 {
+      color: #5c6bc0; /* Azul claro para los encabezados */
+    }
+
+    .docs ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .docs ul li {
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #333;
+      border: 1px solid #444;
+      border-radius: 5px;
+    }
+
+    .docs ul li strong {
+      color: #90caf9; /* Azul celeste */
+    }
+
+    .docs ul li:hover {
+      background-color: #444;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navegación -->
+  <nav>
+    <button id="show-playground">GraphQL Playground</button>
+    <a href="http://localhost:4000/" target="_blank">GraphQL API</a>
+    <a href="http://localhost:8000/" target="_blank">REST API</a>
+    <button id="show-docs">Documentación API's</button>
+  </nav>
+
+  <!-- Contenedor del Playground -->
+  <div id="playground-container" class="active">
+    <div id="root"></div>
+  </div>
+
+  <!-- Documentación de la API -->
+  <div class="docs">
+    <h2>API REST</h2>
+    <h3>Usuarios</h3>
+    <ul>
+      <li><strong>GET</strong> /api/users: Obtiene todos los usuarios.</li>
+      <li><strong>POST</strong> /api/users: Crea un nuevo usuario.</li>
+      <li><strong>PUT</strong> /api/users/:id: Actualiza un usuario existente.</li>
+      <li><strong>DELETE</strong> /api/users/:id: Elimina un usuario.</li>
+    </ul>
+    <h3>Productos</h3>
+    <ul>
+      <li><strong>GET</strong> /api/products: Obtiene todos los productos.</li>
+      <li><strong>POST</strong> /api/products: Crea un nuevo producto.</li>
+      <li><strong>PUT</strong> /api/products/:id: Actualiza un producto existente.</li>
+      <li><strong>DELETE</strong> /api/products/:id: Elimina un producto.</li>
+    </ul>
+    <h3>Carrito</h3>
+    <ul>
+      <li><strong>POST</strong> /api/cart: Crea un carrito.</li>
+      <li><strong>PUT</strong> /api/cart/:id: Agrega productos al carrito.</li>
+      <li><strong>DELETE</strong> /api/cart/:id: Elimina productos del carrito.</li>
+    </ul>
+  </div>
+
+  <script>
+    // Inicializa el playground GraphQL
+    window.addEventListener('load', function () {
+      GraphQLPlayground.init(document.getElementById('root'), {
+        endpoint: 'http://localhost:4000/', // Cambia al endpoint de tu API GraphQL
+        settings: {
+          'schema.polling.enable': false
+        }
+      });
+    });
+
+    // Lógica de navegación entre Playground y Documentación
+    const playgroundButton = document.getElementById('show-playground');
+    const docsButton = document.getElementById('show-docs');
+    const playgroundContainer = document.getElementById('playground-container');
+    const docsContainer = document.querySelector('.docs');
+
+    playgroundButton.addEventListener('click', () => {
+      playgroundContainer.classList.add('active');
+      docsContainer.classList.remove('active');
+    });
+
+    docsButton.addEventListener('click', () => {
+      docsContainer.classList.add('active');
+      playgroundContainer.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
